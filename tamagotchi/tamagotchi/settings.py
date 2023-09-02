@@ -50,7 +50,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 ROOT_URLCONF = 'tamagotchi.urls'
 
 TEMPLATES = [
@@ -75,22 +81,37 @@ WSGI_APPLICATION = 'tamagotchi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import environ
-env = environ.Env()
-environ.Env.read_env()
-...
-#Your secret key
-SECRET_KEY = env("SECRET_KEY")
-...
+# import environ
+# env = environ.Env()
+# environ.Env.read_env()
+# ...
+# #Your secret key
+# SECRET_KEY = env("SECRET_KEY")
+# ...
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME' : env("DB_NAME"),
+#         'USER': env("DB_USER"),
+#         'PASSWORD' : env("DB_PASSWORD"),
+#         'HOST': env("DB_HOST"),
+#         'PORT' : env("DB_PORT"),
+#     }
+# }
+
+#At the developing stage use this after use the one up.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD' : env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT' : env("DB_PORT"),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'database',
+        'USER': 'laeticiaoceane',
+        'PASSWORD': '12345678',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        # 'OPTIONS': {
+        #     'sslmode': 'require',
+        # },
+    },
 }
 
 
