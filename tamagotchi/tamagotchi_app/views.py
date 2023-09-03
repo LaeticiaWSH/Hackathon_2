@@ -49,3 +49,6 @@ def pet_detail(request,pk):
     elif request.method == 'DELETE':
         pet.delete()
         return HttpResponse(status = 204)
+
+def game(request):
+    return render(request, 'index.html',{})
