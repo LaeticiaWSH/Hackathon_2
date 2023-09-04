@@ -125,7 +125,7 @@ startBtn.addEventListener("click", function() {
 
 // Togglers for buttons
 document.querySelector(".game-screen").classList.toggle("hide");
-document.querySelector(".play_screen").classList.toggle("hide");
+// document.querySelector(".play_screen").classList.toggle("hide");
 
 // function playGame() {
 // 	document.querySelector(".game-screen").classList.toggle("hide");
@@ -168,13 +168,13 @@ async function displaypetInfo(){
 		const data = await response.json();
 		const pname = localStorage.getItem("petName")
 		if (data[0].name == pname ){
-			infotxt = `--${data[0].name}-- \n Age : ${data[0].age} \n Gender : ${data[0].gender} \n Nationality : ${data[0].nationality} \n Personality: ${data[0].Personality} \n Species : ${data[0].species}`
+			infotxt = `--${data[0].name}-- \n Age : ${data[0].age} \n Gender : ${data[0].gender} \n Nationality : ${data[0].nationality} \n Personality: ${data[0].personality} \n Species : ${data[0].species}`
 			alert(infotxt)
 		} else if (data[1].name == pname){
-			infotxt = `--${data[1].name}-- \n Age : ${data[1].age} \n Gender : ${data[1].gender} \n Nationality : ${data[1].nationality} \n Personality: ${data[1].Personality} \n Species : ${data[1].species}`
+			infotxt = `--${data[1].name}-- \n Age : ${data[1].age} \n Gender : ${data[1].gender} \n Nationality : ${data[1].nationality} \n Personality: ${data[1].personality} \n Species : ${data[1].species}`
 			alert(infotxt)
 		} else if (data[2].name == pname) {
-			infotxt = `--${data[2].name}-- \n Age : ${data[2].age} \n Gender : ${data[2].gender} \n Nationality : ${data[2].nationality} \n Personality: ${data[2].Personality} \n Species : ${data[2].species}`
+			infotxt = `--${data[2].name}-- \n Age : ${data[2].age} \n Gender : ${data[2].gender} \n Nationality : ${data[2].nationality} \n Personality: ${data[2].personality} \n Species : ${data[2].species}`
 			alert(infotxt)
 		}
 
