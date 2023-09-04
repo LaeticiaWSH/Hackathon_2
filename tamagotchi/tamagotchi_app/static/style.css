@@ -1,16 +1,9 @@
-
-::selection {
-    background-color: transparent;
-}
-
+body {
+    background-color: rgb(240, 255, 253);
+ }
 * {
     margin: 0;
     padding: 0;
-}
-
-body {
-    background-color: #fafafa;
-    transition: background-color .3s;
 }
 
 h1,
@@ -68,14 +61,15 @@ h3 {
 }
 
 .buttons a,
-.menu-buttons a {
+.menu-buttons a,
+#Tic,
+#Rock {
     display: inline-block;
     font-size: 40px;
     background-color: transparent;
     border: 2px solid #131313;
     padding: 10px 20px;
     margin: 100px 20px 0px 20px;
-    transition: background-color .1s;
     text-decoration: none;
     color: #131313;
     font-weight: 300;
@@ -84,7 +78,7 @@ h3 {
 }
 
 .buttons a:hover,
-.menu-buttons a:hover {
+.menu-buttons a:hover{
     background-color: #131313;
     color: #fafafa;
 }
@@ -111,77 +105,20 @@ h3 {
     display: inline;
 }
 
-@media (max-width: 860px) {
-    .hp {
-        font-size: 20px;
-    }
-
-    .buttons a,
-    .menu-buttons a,
-    .settings-buttons a {
-        font-size: 30px;
-    }
-
-    #name {
-        font-size: 20px;
-    }
-
-    #t-body {
-        font-size: 50px;
-    }
-}
-
-@media (max-width: 540px) {
-    .hp p {
-        font-size: 20px;
-        display: block;
-    }
-
-    .buttons a,
-    .menu-buttons a,
-    .settings-buttons a {
-        font-size: 20px;
-        margin: 20px 5px 0px 5px;
-    }
-
-    #name {
-        font-size: 20px;
-    }
-
-    #t-body {
-        font-size: 40px;
-    }
-}
-
-@media (max-width: 540px) {
-    .hp p {
-        font-size: 20px;
-        display: block;
-    }
-
-    .buttons a,
-    .menu-buttons a{
-        font-size: 20px;
-        margin: 20px 2px 0px 2px;
-    }
-
-    #name {
-        font-size: 20px;
-    }
-
-    #t-body {
-        font-size: 30px;
-    }
-
-    .tamagotchi {
-        top: 120px;
-        transform: translateY(0);
-    }
-}
 #action-info{
     font-size: 30px;
     color: #fafafa;
     padding: 5px;
     background-color: #06a996;
     border-radius: 6px;
+}
+
+.side_game {
+    margin-top: 200px;
+    margin-left: 400px;
+}
+#Tic:hover ,
+#Rock:hover{
+    background-color: #131313;
+    color: #fafafa;
 }

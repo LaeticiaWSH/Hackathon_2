@@ -61,7 +61,7 @@ actionEat() {
 };
 
 actionPlay() {
-	this.play+= 8  
+	this.play+= 12  
 };
 
 //The poop will built up so when click on clean button it becomes 0 directly it doesn't decrease
@@ -83,12 +83,16 @@ tick() {
 };
 
 }
+
+
 let tmgch = new Tamagotchi();
 let sleepHpCount;
 let hungerHpCount;
 let playHpCount;
 let poopHpCount;
 let healthHpCount;
+
+
 
 //Controllers
 sleepBtn.addEventListener("click", function() {
@@ -101,6 +105,7 @@ feedBtn.addEventListener("click", function() {
 
 playBtn.addEventListener("click", function() {
 	tmgch.actionPlay();
+	// playGame()
 });
 
 cleanBtn.addEventListener("click", function () {
@@ -114,17 +119,18 @@ cureBtn.addEventListener("click", function () {
 startBtn.addEventListener("click", function() {
 	startGame();
 	update()
-	// core();
+
 });
 
 
-
-//Togglers for buttons
+// Togglers for buttons
 document.querySelector(".game-screen").classList.toggle("hide");
+document.querySelector(".play_screen").classList.toggle("hide");
 
-function MainMenu() {
-	document.querySelector(".main-menu-screen").classList.toggle("hide");
-}
+// function playGame() {
+// 	document.querySelector(".game-screen").classList.toggle("hide");
+// 	document.querySelector(".play_screen").classList.toggle("hide");
+// }
 
 
 async function fetchRandomPetName() {
@@ -182,20 +188,22 @@ infoBtn.addEventListener("click",function(){
 	displaypetInfo()
 })
 
+let coreUpdate;
 //Start game
 // This function will be called at each interval which is 100 * day
 // core();
 function update(){
-let coreUpdate = setInterval(core, 1000);
-let tickUpdate = setInterval(tmgch.tick, 100 * day)
-core()
+ 	coreUpdate = setInterval(core, 1000);
+ 	let tickUpdate = setInterval(tmgch.tick, 100 * day)
+ 	core()
+
+
 // tmgch.tick()
 }
 	//Main function of tamagotchi
 function core() {
 	
 		console.log(tmgch)
-		// tmgch.tick()
 		// the first part of the bracket is to calculate the percentage of the pet's attribute relative to max value
 		// the second part .toFixed(2) is a method used to round the calculated percentage to two decimal places.
 		sleepHpCount = (tmgch.sleep / maxSleep * 100).toFixed(2);
@@ -203,31 +211,32 @@ function core() {
 		playHpCount = (tmgch.play / maxPlay * 100).toFixed(2);
 		poopHpCount = (tmgch.poop / maxPoop * 100).toFixed(2); 
 		healthHpCount = (tmgch.health / maxHealth * 100).toFixed(2); 
-		// console.log(tmgch)
+		
 		//Death sentence
-		if ((playHpCount <= 0) || (sleepHpCount <= 0) || (hungerHpCount <= 0 || poopHpCount >= 100 || healthHpCount <= 0)) {
+		if ((playHpCount < 0) || (sleepHpCount < 0) || (hungerHpCount < 0 || poopHpCount > 100 || healthHpCount < 0)) {
 			playHpCount = 0;
 			sleepHpCount = 0;
 			hungerHpCount = 0;
 			poopHpCount = 0;
 			healthHpCount = 0;
-			clearInterval(coreUpdate);
+			
 			alert('Your pet died ' + '\n ╭(x_x)╮');
+			clearInterval(coreUpdate);
 		}
 
-		//Max bar percentage 
+		//maximum limit set
 		if (tmgch.sleep > 100) {
 			tmgch.sleep = 100;
 			sleepHpCount = 100;
 		}
 
-		if (tmgch.hunger > maxHunger) {
-			tmgch.hunger = maxHunger;
+		if (tmgch.hunger > 100) {
+			tmgch.hunger = 100;
 			hungerHpCount =  100;
 		}
 
-		if (tmgch.play >  maxPlay) {
-			tmgch.play = maxPlay;
+		if (tmgch.play >  100) {
+			tmgch.play = 100;
 			playHpCount = 100
 		}
 		if (tmgch.poop > 100) {
@@ -248,9 +257,6 @@ function core() {
 
 		console.log("Core Update")
 		tmgch.tick()
-		// startBtn.addEventListener("click", function () {
-		// 	startGame();
-		// });
 
 		//Thank you internet for the emoticon.
 		//Hunger bar
@@ -307,8 +313,8 @@ function core() {
 			handRight.innerText = "╮";
 			handLeft.innerText = "╭";
 		} else if (playHpCount < 80) {
-			effectLeft.innerText = "  ✧";
-			effectRight.innerText = "✧  ";
+			effectLeft.innerText = "  ♥";
+			effectRight.innerText = "♥  ";
 			handRight.innerText = "╭";
 			handLeft.innerText = "╮";
 		} else if (playHpCount < 90) {
@@ -322,6 +328,21 @@ function core() {
 			handRight.innerText = "◜";
 			handLeft.innerText = "◝";
 		}
+
+		//poop bar 
+	if (poopHpCount > 50){
+		eyeLeft.innerText = "ㆆ";
+		eyeRight.innerText = "ㆆ";
+	}
+	if (poopHpCount > 90){
+		eyeLeft.innerText = "°";
+		eyeRight.innerText = "o";
+	}
+	// health bar 
+
+	if (healthHpCount < 30){
+		mouth.innerText ="︵"
+	}
 	}
 
 
