@@ -3,7 +3,7 @@
  The framework used is django.
  
  - Main files that were worked on are :
-   the project urls.py and settings.py,
+   the project urls.py and settings.py(connected with postgresql,
    the tamagotchi_app urls.py,models.py and views.py,
    the templates folder : index.html and the static folder : for the javascript and css.
    # The Game
