@@ -5,9 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <canvas></canvas>
-    <script src="{% static 'index.js' %}"></script>
+
+<div class="main-menu-screen">
+    <div class="menu">
+        <h1>Tamagochi-like Style Game</h1>
+        <div class="menu-buttons">
+            <a href="#" id="action-menu-start-game">Start</a>
+        </div>
+    </div>
+</div>
+
+<div class="game-screen">
+    <div class="tamagotchi">
+        <div class="hp">
+            <p>Sleep: <span id="sleep-hp"></span>%</p>
+            <p>Hunger: <span id="hunger-hp"></span>%</p>
+            <p>Happy: <span id="play-hp"></span>%</p><br>
+            <p>Poop: <span id="poop-hp"></span>%</p>
+            <p>Health: <span id="health-hp"></span>%</p>
+        </div>
+
+        <p><span id="name"></span></p>
+        <p id="t-body"><span id="effect-left">°✧✧</span><span id="hand-left">◝</span>(<span id="eye-left"></span><span
+                id="mouth">▿</span><span id="eye-right">^</span>)<span id="hand-right">◜</span><span
+                id="effect-right">✧°</span></p>
+
+        <button id="action-info">Info</button>
+        <div class="buttons">
+            <a href="#" id="action-sleep">Sleep</a>
+            <a href="#" id="action-feed">Feed</a>
+            <a href="#" id="action-play">Play</a>
+            <a href="#" id="action-clean">Clean</a>
+            <a href="#" id="action-cure">Cure</a>
+        </div>
+    </div>
+</div>
+<script src="{% static 'index.js' %}"></script>
+    
 </body>
 </html>
+
