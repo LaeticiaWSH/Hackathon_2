@@ -1,4 +1,4 @@
-//Constants for buttons
+//variable for buttons
 const sleepBtn = document.querySelector("#action-sleep");
 const feedBtn = document.querySelector("#action-feed");
 const playBtn = document.querySelector("#action-play");
@@ -7,7 +7,7 @@ const cureBtn = document.querySelector("#action-cure");
 const startBtn = document.querySelector("#action-menu-start-game");
 const infoBtn = document.querySelector("#action-info")
 
-//Constants for main bar
+//variable for main bar
 const sleepHp = document.querySelector("#sleep-hp");
 const hungerHp = document.querySelector("#hunger-hp");
 const playHp = document.querySelector("#play-hp");
@@ -15,7 +15,7 @@ const poopHp = document.querySelector("#poop-hp");
 const healthHp = document.querySelector("#health-hp");
 
 //
-//Constants for body
+//variable for body
 const effectLeft = document.querySelector("#effect-left");
 const effectRight = document.querySelector("#effect-right");
 const handLeft = document.querySelector("#hand-left");
@@ -31,10 +31,19 @@ const maxPlay = 100;
 const maxPoop = 100; 
 const maxHealth = 100;
 //Game speed
-let day = 20;
+// the larger the number the slower the speed
+let day = 25;
 
+// class Tama() {
+// 	 tick() {
+
+// 	}
+// }
+
+// new_tama = Tama();
 //New object
-function Tamagotchi() {
+class Tamagotchi{
+  constructor(){
   this.sleep = maxSleep;
   this.hunger = maxHunger;
   this.play = maxPlay;
@@ -43,34 +52,37 @@ function Tamagotchi() {
 }
 
 //Abilities
-Tamagotchi.prototype.actionSleep = function() {
-    this.sleep+=40 / (day * 2)
+actionSleep() {
+    this.sleep+= 4 
 };
 
-Tamagotchi.prototype.actionEat = function() {
-	this.hunger+=120 / (day * 2)
+actionEat() {
+	this.hunger+=12 
 };
 
-Tamagotchi.prototype.actionPlay = function() {
-	this.play+=80 / (day * 2)
+actionPlay() {
+	this.play+= 8  
 };
 
-Tamagotchi.prototype.actionClean = function () {
+//The poop will built up so when click on clean button it becomes 0 directly it doesn't decrease
+actionClean() {
 	this.poop = 0; 
 };
 
-Tamagotchi.prototype.actionCure = function () {
-	this.health += 120 / (day * 2); 
+actionCure() {
+	this.health += 30 
 };
-
-Tamagotchi.prototype.tick = function() {
+ //this will be displayed on screen the percentage decreasing
+tick() {
     this.sleep--;
     this.hunger-=3;
     this.play-=2;
 	this.poop += 1; 
 	this.health --;
+	console.log("Ticked!")
 };
 
+}
 let tmgch = new Tamagotchi();
 let sleepHpCount;
 let hungerHpCount;
@@ -101,6 +113,8 @@ cureBtn.addEventListener("click", function () {
 
 startBtn.addEventListener("click", function() {
 	startGame();
+	update()
+	// core();
 });
 
 
@@ -121,8 +135,6 @@ async function fetchRandomPetName() {
 		if (data.length > 0) {
 			const randomIndex = Math.floor(Math.random() * data.length);
 			const randomPetName = data[randomIndex].name;
-			// infotxt = `Age : ${data[randomIndex].age} \n Gender : ${data[randomIndex].gender} \n Nationality : ${data[randomIndex].nationality} \n Personality: ${data[randomIndex].Personality} \n Species : ${data[randomIndex].species}`
-			// console.log(infotxt)
 			return randomPetName;
 		} 
 	} catch (error) {
@@ -134,12 +146,12 @@ async function fetchRandomPetName() {
 async function startGame() {
 	localStorage.clear();
 	document.querySelector(".game-screen").classList.toggle("hide");
-	document.querySelector(".main-menu-screen").classList.toggle("hide");
+	document.querySelector(".main-menu-screen").classList.toggle("hide");  
 
 	//Tamagotchi's name
 	const randomPetName = await fetchRandomPetName();
 	console.log(randomPetName)
-	document.querySelector("#name").innerHTML = randomPetName;
+	document.querySelector("#name").innerText = randomPetName;
 	localStorage.setItem("petName",randomPetName) 
 	return randomPetName
 	}
@@ -163,29 +175,27 @@ async function displaypetInfo(){
 	}catch(error){
 		console.error(error)
 	}
-	
-
-
 }
 
 // add event listener for info button
 infoBtn.addEventListener("click",function(){
-	// displaypetInfo(randomPetName)
-	// console.log(startGame())
-	// displaypetInfo(startGame())
 	displaypetInfo()
-
-
 })
 
-
-	//Start game
-	// This function will be called at each interval which is 100 * day
-	core();
-	let coreUpdate = setInterval(core, 100 * day);
-
+//Start game
+// This function will be called at each interval which is 100 * day
+// core();
+function update(){
+let coreUpdate = setInterval(core, 1000);
+let tickUpdate = setInterval(tmgch.tick, 100 * day)
+core()
+// tmgch.tick()
+}
 	//Main function of tamagotchi
-	function core() {
+function core() {
+	
+		console.log(tmgch)
+		// tmgch.tick()
 		// the first part of the bracket is to calculate the percentage of the pet's attribute relative to max value
 		// the second part .toFixed(2) is a method used to round the calculated percentage to two decimal places.
 		sleepHpCount = (tmgch.sleep / maxSleep * 100).toFixed(2);
@@ -193,126 +203,124 @@ infoBtn.addEventListener("click",function(){
 		playHpCount = (tmgch.play / maxPlay * 100).toFixed(2);
 		poopHpCount = (tmgch.poop / maxPoop * 100).toFixed(2); 
 		healthHpCount = (tmgch.health / maxHealth * 100).toFixed(2); 
-
+		// console.log(tmgch)
 		//Death sentence
 		if ((playHpCount <= 0) || (sleepHpCount <= 0) || (hungerHpCount <= 0 || poopHpCount >= 100 || healthHpCount <= 0)) {
 			playHpCount = 0;
 			sleepHpCount = 0;
 			hungerHpCount = 0;
+			poopHpCount = 0;
+			healthHpCount = 0;
 			clearInterval(coreUpdate);
 			alert('Your pet died ' + '\n ╭(x_x)╮');
 		}
 
 		//Max bar percentage 
-		if (tmgch.sleep >= maxSleep) {
-			tmgch.sleep = maxSleep ;
-		}
-
-		if (tmgch.hunger >= maxHunger) {
-			tmgch.hunger = maxHunger;
-		}
-
-		if (tmgch.play >=  maxPlay) {
-			tmgch.play = maxPlay;
-		}
-
-		//Max health percentage (for player)
-		if ((tmgch.sleep / maxSleep * 100) > 100) {
+		if (tmgch.sleep > 100) {
+			tmgch.sleep = 100;
 			sleepHpCount = 100;
 		}
-		if ((tmgch.hunger / maxHunger * 100) > 100) {
-			hungerHpCount = 100;
+
+		if (tmgch.hunger > maxHunger) {
+			tmgch.hunger = maxHunger;
+			hungerHpCount =  100;
 		}
-		if ((tmgch.play / maxPlay * 100) > 100) {
-			playHpCount = 100;
+
+		if (tmgch.play >  maxPlay) {
+			tmgch.play = maxPlay;
+			playHpCount = 100
 		}
-		if ((tmgch.poop / maxPoop * 100) > 100) {
+		if (tmgch.poop > 100) {
+			tmgch.poop = 100;
 			poopHpCount = 100;
 		}
-		if ((tmgch.health / maxHealth * 100) > 100) {
+		if (tmgch.health > 100) {
+			tmgch.health = 100;
 			healthHpCount = 100;
 		}
 
 		//Show HP on screen
-		sleepHp.innerHTML = sleepHpCount;
-		hungerHp.innerHTML = hungerHpCount;
-		playHp.innerHTML = playHpCount;
-		poopHp.innerHTML = poopHpCount; 
-		healthHp.innerHTML = healthHpCount;
+		sleepHp.innerText = sleepHpCount;
+		hungerHp.innerText = hungerHpCount;
+		playHp.innerText = playHpCount;
+		poopHp.innerText = poopHpCount; 
+		healthHp.innerText = healthHpCount;
 
-		//Remove HP every tick
-		tmgch.tick();
-
+		console.log("Core Update")
+		tmgch.tick()
+		// startBtn.addEventListener("click", function () {
+		// 	startGame();
+		// });
 
 		//Thank you internet for the emoticon.
 		//Hunger bar
 		if (hungerHpCount <= 0) {
-			mouth.innerHTML = "_";
+			mouth.innerText = "_";
 		} else if (hungerHpCount < 20) {
-			mouth.innerHTML = "0";
+			mouth.innerText = "0";
 		} else if (hungerHpCount < 40) {
-			mouth.innerHTML = "O";
+			mouth.innerText = "O";
 		} else if (hungerHpCount < 60) {
-			mouth.innerHTML = "o";
+			mouth.innerText = "o";
 		} else if (hungerHpCount < 80) {
-			mouth.innerHTML = "-";
+			mouth.innerText = "-";
 		} else if (hungerHpCount > 80) {
-			mouth.innerHTML = "▿";
+			mouth.innerText = "▿";
 		}
 
 		//Sleep bar
 		if (sleepHpCount <= 0) {
-			eyeLeft.innerHTML = "x";
-			eyeRight.innerHTML = "x";
+			eyeLeft.innerText = "x";
+			eyeRight.innerText = "x";
 		} else if (sleepHpCount < 20) {
-			eyeLeft.innerHTML = "◡";
-			eyeRight.innerHTML = "◡";
-			mouth.innerHTML = ".";
+			eyeLeft.innerText = "◡";
+			eyeRight.innerText = "◡";
+			mouth.innerText = ".";
 		} else if (sleepHpCount < 40) {
-			eyeLeft.innerHTML = " ´ ";
-			eyeRight.innerHTML = " ` ";
+			eyeLeft.innerText = " ´ ";
+			eyeRight.innerText = " ` ";
 		} else if (sleepHpCount < 60) {
-			eyeLeft.innerHTML = "●";
-			eyeRight.innerHTML = "●";
+			eyeLeft.innerText = "●";
+			eyeRight.innerText = "●";
 		} else if (sleepHpCount < 80) {
-			eyeLeft.innerHTML = "・";
-			eyeRight.innerHTML = "・";
+			eyeLeft.innerText = "・";
+			eyeRight.innerText = "・";
 		} else if (sleepHpCount > 80) {
-			eyeLeft.innerHTML = "^";
-			eyeRight.innerHTML = "^";
+			eyeLeft.innerText = "^";
+			eyeRight.innerText = "^";
 		}
 
 		//Play bar
 		if (playHpCount <= 0) {
-			effectRight.innerHTML = "   ";
-			effectLeft.innerHTML = "   ";
-			handRight.innerHTML = "╮";
-			handLeft.innerHTML = "╭";
+			effectRight.innerText = "   ";
+			effectLeft.innerText = "   ";
+			handRight.innerText = "╮";
+			handLeft.innerText = "╭";
 		} else if (playHpCount < 40) {
-			effectRight.innerHTML = "*  ";
-			effectLeft.innerHTML = "   ";
-			handRight.innerHTML = " ";
-			handLeft.innerHTML = " ";
+			effectRight.innerText = "*  ";
+			effectLeft.innerText = "   ";
+			handRight.innerText = " ";
+			handLeft.innerText = " ";
 		} else if (playHpCount < 60) {
-			effectLeft.innerHTML = "   ";
-			effectRight.innerHTML = "   ";
-			handRight.innerHTML = "╮";
-			handLeft.innerHTML = "╭";
+			effectLeft.innerText = "   ";
+			effectRight.innerText = "   ";
+			handRight.innerText = "╮";
+			handLeft.innerText = "╭";
 		} else if (playHpCount < 80) {
-			effectLeft.innerHTML = "  ✧";
-			effectRight.innerHTML = "✧  ";
-			handRight.innerHTML = "╭";
-			handLeft.innerHTML = "╮";
+			effectLeft.innerText = "  ✧";
+			effectRight.innerText = "✧  ";
+			handRight.innerText = "╭";
+			handLeft.innerText = "╮";
 		} else if (playHpCount < 90) {
-			effectLeft.innerHTML = " ˖✧";
-			effectRight.innerHTML = "✧˖ ";
-			handRight.innerHTML = "/";
-			handLeft.innerHTML = "\\";
+			effectLeft.innerText = " ˖✧";
+			effectRight.innerText = "✧˖ ";
+			handRight.innerText = "/";
+			handLeft.innerText = "\\";
 		} else if (playHpCount > 90) {
-			effectLeft.innerHTML = "°˖✧";
-			effectRight.innerHTML = "✧˖°";
-			handRight.innerHTML = "◜";
-			handLeft.innerHTML = "◝";
+			effectLeft.innerText = "°˖✧";
+			effectRight.innerText = "✧˖°";
+			handRight.innerText = "◜";
+			handLeft.innerText = "◝";
 		}
 	}
 
