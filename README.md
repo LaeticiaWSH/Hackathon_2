@@ -1,6 +1,8 @@
 # Hackathon_2
 # __TAMAGOTCHI GAME__
  The framework used is django.
+ Projectname = Tamagotchi
+ AppName = Tamagotchi_app
  
  - Main files that were worked on are :
    the project urls.py and settings.py(connected with postgresql,
